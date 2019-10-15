@@ -5,10 +5,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.games.soapsample.api.DataApi
 import com.games.soapsample.request.Body
+import com.games.soapsample.request.CitiesRequest
 import com.games.soapsample.request.Header
 import com.games.soapsample.request.ListOfCities
-import com.games.soapsample.request.SoapEnvelope
-import com.games.soapsample.response.CitiesResponseEnvelope
+import com.games.soapsample.response.CitiesResponse
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,7 +19,7 @@ import retrofit2.Callback
 class MainActivity() : AppCompatActivity() {
 
     private var webService: WebService = WebService()
-    var citiesResponse: Single<CitiesResponseEnvelope>? = null;
+    var citiesResponse: Single<CitiesResponse>? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class MainActivity() : AppCompatActivity() {
 
     //only for tests
     private fun makeRequestCall(dataApi: DataApi) {
-        val request = SoapEnvelope(Header(), Body(ListOfCities()))
+        val request = CitiesRequest(Header(), Body(ListOfCities()))
 
         val abcd: Call<Any> = dataApi.citiesReqCallback(request);
 
@@ -54,7 +54,7 @@ class MainActivity() : AppCompatActivity() {
     }
 
     private fun makeRequestRx(dataApi: DataApi) {
-        val request = SoapEnvelope(Header(), Body(ListOfCities()))
+        val request = CitiesRequest(Header(), Body(ListOfCities()))
 
         citiesResponse = dataApi.citiesReqSingle(request);
 

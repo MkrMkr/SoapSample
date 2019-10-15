@@ -6,7 +6,7 @@ import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(name = "env:Envelope")
-class CitiesResponseEnvelope(@Element var citiesResponseBody: CitiesResponseBody)
+class CitiesResponse(@Element var citiesResponseBody: CitiesResponseBody)
 
 
 @Xml(name = "env:Body")
@@ -141,11 +141,14 @@ class MoveOutDaysItem(
     var moveOutDay: String
 )
 
-@Xml(name = "currency")
-class Currency(
-    @Attribute(name = "xsi:type")
-    var xsiType: String,
-
+@Xml(name = "currency", inheritance = true)
+class Currency : TagWithXsiType() {
     @TextContent
-    var currencyValue: String
-)
+    lateinit var currencyValue: String
+}
+
+@Xml
+open class TagWithXsiType {
+    @Attribute(name = "xsi:type")
+    lateinit var xsiType: String
+}
