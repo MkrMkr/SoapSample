@@ -2,6 +2,7 @@ package com.games.soapsample
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.games.soapsample.api.DataApi
 import com.games.soapsample.request.Body
@@ -66,6 +67,7 @@ class MainActivity() : AppCompatActivity() {
                 }.doAfterTerminate {
                     Log.i("callTest", "loading finished");
                 }.subscribe({
+                    Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show();
                     Log.i("callTest", "succes: $it");
                 }, {
                     Log.i("callTest", "error: $it");
