@@ -3,6 +3,7 @@ package com.games.soapsample.request
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Xml
 
+//TODO: are namespaces in envelop required?
 const val XMLNS_SOAP = "soap=http://www.w3.org/2003/05/soap-envelope"
 const val XMLNS_SOAP1 = "soap1=https://localhost/SOAPVendorAPI"
 
