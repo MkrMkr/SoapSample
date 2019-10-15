@@ -1,7 +1,7 @@
 package com.games.soapsample.api
 
 import com.games.soapsample.request.CitiesRequest
-import com.games.soapsample.response.CitiesResponse
+import com.games.soapsample.response.CitiesResponseEnvelope
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.Body
@@ -12,10 +12,10 @@ interface DataApi {
 
     @Headers("Content-Type: text/xml", "Accept-Charset: utf-8")
     @POST("/server")
-    fun citiesReqSingle(@Body body: CitiesRequest): Single<CitiesResponse>;
+    fun citiesAsSingle(@Body body: CitiesRequest): Single<CitiesResponseEnvelope>;
 
     @Headers("Content-Type: text/xml", "Accept-Charset: utf-8")
     @POST("/server")
-    fun citiesReqCallback(@Body body: CitiesRequest): Call<Any>;
+    fun citiesAsCallback(@Body body: CitiesRequest): Call<Any>;
 
 }
