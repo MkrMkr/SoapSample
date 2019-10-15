@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SoapSample</string>
-    <string name="send_request">Send request</string>
+    <string name="send_request_call">Send request</string>
+    <string name="send_request_rx">Send request rx</string>
 </resources>
