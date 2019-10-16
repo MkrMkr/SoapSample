@@ -12,8 +12,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
 
 class MainActivity() : AppCompatActivity() {
 
@@ -26,38 +24,17 @@ class MainActivity() : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val dataApi = webService.retrofit.create(DataApi::class.java)
-        //only for tests
-        send_req_button_call.setOnClickListener {
-            makeCitiesRequestCall(dataApi)
+
+        send_cities_request.setOnClickListener {
+            makeCitiesRequest(dataApi)
         }
 
-        send_req_button_rx.setOnClickListener {
-            makeCitiesRequestRx(dataApi)
-        }
-
-        getContract.setOnClickListener {
+        send_getcontract_request.setOnClickListener {
             makeGetContractRequest(dataApi)
         }
     }
 
-    //only for tests
-    private fun makeCitiesRequestCall(dataApi: DataApi) {
-        val request = CitiesRequestEnvelope(CitiesRequestHeader(), Body(ListOfCities()))
-
-        val abcd: Call<Any> = dataApi.citiesAsCallback(request);
-
-        abcd.enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: retrofit2.Response<Any>) {
-                Log.i("callTest", "call success ${response.body()}");
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.i("callTest", "call error ${t.message}");
-            }
-        });
-    }
-
-    private fun makeCitiesRequestRx(dataApi: DataApi) {
+    private fun makeCitiesRequest(dataApi: DataApi) {
         val request = CitiesRequestEnvelope(CitiesRequestHeader(), Body(ListOfCities()))
 
         citiesResponse = dataApi.citiesAsSingle(request);

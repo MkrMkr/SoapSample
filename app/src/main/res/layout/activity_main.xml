@@ -25,20 +25,20 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/send_req_button_rx"
+        android:id="@+id/send_cities_request"
         app:layout_constraintTop_toBottomOf="@id/send_req_button_call"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/send_request_rx"
+        android:text="@string/send_cities_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/getContract"
-        app:layout_constraintTop_toBottomOf="@id/send_req_button_rx"
+        android:id="@+id/send_getcontract_request"
+        app:layout_constraintTop_toBottomOf="@id/send_cities_request"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/get_contract"
+        android:text="@string/send_get_contract_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
