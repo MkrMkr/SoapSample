@@ -5,11 +5,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.games.soapsample.api.DataApi
-import com.games.soapsample.request.Body
-import com.games.soapsample.request.CitiesRequest
-import com.games.soapsample.request.Header
-import com.games.soapsample.request.ListOfCities
+import com.games.soapsample.request.*
 import com.games.soapsample.response.CitiesResponseEnvelope
+import com.games.soapsample.response.GetContractResponseEnvelope
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +19,7 @@ class MainActivity() : AppCompatActivity() {
 
     private var webService: WebService = WebService()
     var citiesResponse: Single<CitiesResponseEnvelope>? = null;
+    var getContractResponse: Single<GetContractResponseEnvelope>? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +28,21 @@ class MainActivity() : AppCompatActivity() {
         val dataApi = webService.retrofit.create(DataApi::class.java)
         //only for tests
         send_req_button_call.setOnClickListener {
-            makeRequestCall(dataApi)
+            makeCitiesRequestCall(dataApi)
         }
 
         send_req_button_rx.setOnClickListener {
-            makeRequestRx(dataApi)
+            makeCitiesRequestRx(dataApi)
+        }
+
+        getContract.setOnClickListener {
+            makeGetContractRequest(dataApi)
         }
     }
 
     //only for tests
-    private fun makeRequestCall(dataApi: DataApi) {
-        val request = CitiesRequest(Header(), Body(ListOfCities()))
+    private fun makeCitiesRequestCall(dataApi: DataApi) {
+        val request = CitiesRequestEnvelope(CitiesRequestHeader(), Body(ListOfCities()))
 
         val abcd: Call<Any> = dataApi.citiesAsCallback(request);
 
@@ -54,8 +57,8 @@ class MainActivity() : AppCompatActivity() {
         });
     }
 
-    private fun makeRequestRx(dataApi: DataApi) {
-        val request = CitiesRequest(Header(), Body(ListOfCities()))
+    private fun makeCitiesRequestRx(dataApi: DataApi) {
+        val request = CitiesRequestEnvelope(CitiesRequestHeader(), Body(ListOfCities()))
 
         citiesResponse = dataApi.citiesAsSingle(request);
 
@@ -63,17 +66,46 @@ class MainActivity() : AppCompatActivity() {
             it.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    Log.i("callTest", "loading started");
+                    Log.i("callTest", "cities loading started");
                 }.doAfterTerminate {
-                    Log.i("callTest", "loading finished");
+                    Log.i("callTest", "cities loading finished");
                 }.subscribe({
                     Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show();
-                    Log.i("callTest", "succes: $it");
+                    Log.i("callTest", "cities succes: $it");
                 }, {
-                    Log.i("callTest", "error: $it");
+                    Log.i("callTest", "cities error: $it");
                 });
         }
     }
 
+    private fun makeGetContractRequest(dataApi: DataApi) {
+        //tokenTag valid probably till 15.11.2019 (720h)
+        val request = GetContractRequestEnvelope(
+            GetContractHeader(
+                TokenTag(
+                    token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlJEVTBPREE1TjBNeE1FVkdRekEzTnpFeFJFTTJNRU5FTVRjelF6VTNRVUl3T0RNMk16aEdPQSJ9.eyJpc3MiOiJodHRwczovL2Rldi1rZHh2OGNocC5ldS5hdXRoMC5jb20vIiwic3ViIjoiQXlRZzcxSkR3cEdoTzFxbXNtdEV6b1E3aGNsTEhxcjBAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vZGV2LWtkeHY4Y2hwLmV1LmF1dGgwLmNvbS9hcGkvdjIvIiwiaWF0IjoxNTcxMTIxMTYzLCJleHAiOjE1NzEyMDc1NjMsImF6cCI6IkF5UWc3MUpEd3BHaE8xcW1zbXRFem9RN2hjbExIcXIwIiwic2NvcGUiOiJyZWFkOmNsaWVudF9ncmFudHMgY3JlYXRlOmNsaWVudF9ncmFudHMgZGVsZXRlOmNsaWVudF9ncmFudHMgdXBkYXRlOmNsaWVudF9ncmFudHMgcmVhZDp1c2VycyB1cGRhdGU6dXNlcnMgZGVsZXRlOnVzZXJzIGNyZWF0ZTp1c2VycyByZWFkOnVzZXJzX2FwcF9tZXRhZGF0YSB1cGRhdGU6dXNlcnNfYXBwX21ldGFkYXRhIGRlbGV0ZTp1c2Vyc19hcHBfbWV0YWRhdGEgY3JlYXRlOnVzZXJzX2FwcF9tZXRhZGF0YSBjcmVhdGU6dXNlcl90aWNrZXRzIHJlYWQ6Y2xpZW50cyB1cGRhdGU6Y2xpZW50cyBkZWxldGU6Y2xpZW50cyBjcmVhdGU6Y2xpZW50cyByZWFkOmNsaWVudF9rZXlzIHVwZGF0ZTpjbGllbnRfa2V5cyBkZWxldGU6Y2xpZW50X2tleXMgY3JlYXRlOmNsaWVudF9rZXlzIHJlYWQ6Y29ubmVjdGlvbnMgdXBkYXRlOmNvbm5lY3Rpb25zIGRlbGV0ZTpjb25uZWN0aW9ucyBjcmVhdGU6Y29ubmVjdGlvbnMgcmVhZDpyZXNvdXJjZV9zZXJ2ZXJzIHVwZGF0ZTpyZXNvdXJjZV9zZXJ2ZXJzIGRlbGV0ZTpyZXNvdXJjZV9zZXJ2ZXJzIGNyZWF0ZTpyZXNvdXJjZV9zZXJ2ZXJzIHJlYWQ6ZGV2aWNlX2NyZWRlbnRpYWxzIHVwZGF0ZTpkZXZpY2VfY3JlZGVudGlhbHMgZGVsZXRlOmRldmljZV9jcmVkZW50aWFscyBjcmVhdGU6ZGV2aWNlX2NyZWRlbnRpYWxzIHJlYWQ6cnVsZXMgdXBkYXRlOnJ1bGVzIGRlbGV0ZTpydWxlcyBjcmVhdGU6cnVsZXMgcmVhZDpydWxlc19jb25maWdzIHVwZGF0ZTpydWxlc19jb25maWdzIGRlbGV0ZTpydWxlc19jb25maWdzIHJlYWQ6ZW1haWxfcHJvdmlkZXIgdXBkYXRlOmVtYWlsX3Byb3ZpZGVyIGRlbGV0ZTplbWFpbF9wcm92aWRlciBjcmVhdGU6ZW1haWxfcHJvdmlkZXIgYmxhY2tsaXN0OnRva2VucyByZWFkOnN0YXRzIHJlYWQ6dGVuYW50X3NldHRpbmdzIHVwZGF0ZTp0ZW5hbnRfc2V0dGluZ3MgcmVhZDpsb2dzIHJlYWQ6c2hpZWxkcyBjcmVhdGU6c2hpZWxkcyBkZWxldGU6c2hpZWxkcyByZWFkOmFub21hbHlfYmxvY2tzIGRlbGV0ZTphbm9tYWx5X2Jsb2NrcyB1cGRhdGU6dHJpZ2dlcnMgcmVhZDp0cmlnZ2VycyByZWFkOmdyYW50cyBkZWxldGU6Z3JhbnRzIHJlYWQ6Z3VhcmRpYW5fZmFjdG9ycyB1cGRhdGU6Z3VhcmRpYW5fZmFjdG9ycyByZWFkOmd1YXJkaWFuX2Vucm9sbG1lbnRzIGRlbGV0ZTpndWFyZGlhbl9lbnJvbGxtZW50cyBjcmVhdGU6Z3VhcmRpYW5fZW5yb2xsbWVudF90aWNrZXRzIHJlYWQ6dXNlcl9pZHBfdG9rZW5zIGNyZWF0ZTpwYXNzd29yZHNfY2hlY2tpbmdfam9iIGRlbGV0ZTpwYXNzd29yZHNfY2hlY2tpbmdfam9iIHJlYWQ6Y3VzdG9tX2RvbWFpbnMgZGVsZXRlOmN1c3RvbV9kb21haW5zIGNyZWF0ZTpjdXN0b21fZG9tYWlucyByZWFkOmVtYWlsX3RlbXBsYXRlcyBjcmVhdGU6ZW1haWxfdGVtcGxhdGVzIHVwZGF0ZTplbWFpbF90ZW1wbGF0ZXMgcmVhZDptZmFfcG9saWNpZXMgdXBkYXRlOm1mYV9wb2xpY2llcyByZWFkOnJvbGVzIGNyZWF0ZTpyb2xlcyBkZWxldGU6cm9sZXMgdXBkYXRlOnJvbGVzIHJlYWQ6cHJvbXB0cyB1cGRhdGU6cHJvbXB0cyByZWFkOmJyYW5kaW5nIHVwZGF0ZTpicmFuZGluZyIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.JQAq0ssgrPvgEdMHOYP6oQ7gn0heWodX9pbmHNYH-uuyDlIaUKxJ-jUSWjPSU4ewLX4_MT9-a3etfpKiYJlF8YP4kQhN86g-J9egI51us9UrW7aJqcrEDcI72fNSIyDWnGjOJxjqUBCrHB7HSxQc_il36ijL85H9Gxoc6AfxZ9_ixz6YeMZIB8Om143hRSkJcwcE4niGyB_5jrRPUgoUXQCo_NGAH6XPEcmlgIw5Ne0tfhKU12woBfpdxgrA934aB6IPqy2aLH6gR7y8GsS8gEBH5phutxKQMHSNO19WlZLUwp92bPX_iaMOiWW9HICe3daAv6gvTEG9T8gkE76nVA"
+                )
+            ), GetContractBody(
+                GetContract()
+            )
+        )
+
+        getContractResponse = dataApi.getContractAsSingle(request);
+
+        getContractResponse?.let {
+            it.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    Log.i("callTest", "getContract loading started");
+                }.doAfterTerminate {
+                    Log.i("callTest", "getContract loading finished");
+                }.subscribe({
+                    Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show();
+                    Log.i("callTest", "getContract succes: $it");
+                }, {
+                    Log.i("callTest", "getContract error: $it");
+                });
+        }
+    }
 
 }
