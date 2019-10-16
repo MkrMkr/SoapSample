@@ -19,7 +19,6 @@ class WebService() {
     }
 
     init {
-        //TODO: try to replace converter with TikXml converter
         retrofit = Retrofit.Builder()
             .addConverterFactory(TikXmlConverterFactory.create())
             .baseUrl("https://vonder-mock.dev.concisesoftware.com")

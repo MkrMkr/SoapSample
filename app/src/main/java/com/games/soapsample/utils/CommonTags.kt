@@ -31,3 +31,6 @@ open class TagWithEncodingStyle() {
     lateinit var encoding: String
 }
 
+@Xml(name = "rpc:result")
+class RpcResult(@TextContent var textContent: String)
+

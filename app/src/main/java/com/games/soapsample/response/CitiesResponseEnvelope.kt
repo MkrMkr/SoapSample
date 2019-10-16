@@ -1,9 +1,6 @@
 package com.games.soapsample.response
 
-import com.games.soapsample.utils.TagWithEncodingStyle
-import com.games.soapsample.utils.TagWithList
-import com.games.soapsample.utils.TagWithTextContent
-import com.games.soapsample.utils.TagWithXsiType
+import com.games.soapsample.utils.*
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
@@ -12,7 +9,7 @@ import com.tickaroo.tikxml.annotation.Xml
 //TODO: - data classes?
 //TODO: - how to create global envelope? should i really do it?
 @Xml(name = "env:Envelope")
-open class CitiesResponseEnvelope(@Element var citiesResponseBody: CitiesResponseBody)
+class CitiesResponseEnvelope(@Element var citiesResponseBody: CitiesResponseBody)
 
 @Xml(name = "env:Body")
 class CitiesResponseBody(@Element var listOfCitiesResponse: ListOfCitiesResponse)
@@ -22,14 +19,11 @@ class ListOfCitiesResponse : TagWithEncodingStyle() {
     @Element
     lateinit var rpcResult: RpcResult
     @Element
-    lateinit var ret: Return
+    lateinit var ret: ReturnListOfCities
 }
 
-@Xml(name = "rpc:result", inheritance = true)
-class RpcResult : TagWithTextContent()
-
 @Xml(name = "return", inheritance = true)
-class Return : TagWithList() {
+class ReturnListOfCities : TagWithList() {
     @Element
     lateinit var cityItem: List<CityItem>
 }
