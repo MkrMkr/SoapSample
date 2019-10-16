@@ -5,9 +5,8 @@ import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
 
-//TODO: are namespaces in envelope required?
+//TODO: are namespaces required in response envelope?
 //TODO: - data classes?
-//TODO: - how to create global envelope? should i really do it?
 @Xml(name = "env:Envelope")
 class CitiesResponseEnvelope(@Element var citiesResponseBody: CitiesResponseBody)
 
