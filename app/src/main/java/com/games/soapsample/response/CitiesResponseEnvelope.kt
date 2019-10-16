@@ -6,7 +6,6 @@ import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
 
 //TODO: are namespaces required in response envelope?
-//TODO: - data classes?
 @Xml(name = "env:Envelope")
 class CitiesResponseEnvelope(@Element var citiesResponseBody: CitiesResponseBody)
 
