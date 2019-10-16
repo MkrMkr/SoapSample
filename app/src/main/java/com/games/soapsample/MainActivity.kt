@@ -79,7 +79,7 @@ class MainActivity() : AppCompatActivity() {
     }
 
     private fun makeGetContractRequest(dataApi: DataApi) {
-        //tokenTag valid probably till 15.11.2019 (720h)
+        //tokenTag valid till +- 15.11.2019
         val request = GetContractRequestEnvelope(
             GetContractHeader(
                 TokenTag(
