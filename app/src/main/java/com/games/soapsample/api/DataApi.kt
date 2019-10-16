@@ -20,6 +20,7 @@ interface DataApi {
     @POST("/server")
     fun getContractAsSingle(@Body body: GetContractRequestEnvelope): Single<GetContractResponseEnvelope>;
 
+    //only for tests
     @Headers("Content-Type: text/xml", "Accept-Charset: utf-8")
     @POST("/server")
     fun citiesAsCallback(@Body body: CitiesRequestEnvelope): Call<Any>;
