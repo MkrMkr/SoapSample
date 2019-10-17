@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.games.soapsample.api.DataApi
 import com.games.soapsample.request.*
 import com.games.soapsample.response.CitiesResponseEnvelope
+import com.games.soapsample.response.GetApartmentsResponseEnvelope
 import com.games.soapsample.response.GetContractResponseEnvelope
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,6 +19,7 @@ class MainActivity() : AppCompatActivity() {
     private var webService: WebService = WebService()
     var citiesResponse: Single<CitiesResponseEnvelope>? = null;
     var getContractResponse: Single<GetContractResponseEnvelope>? = null;
+    var getApartmentsResponse: Single<GetApartmentsResponseEnvelope>? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,10 @@ class MainActivity() : AppCompatActivity() {
 
         send_getcontract_request.setOnClickListener {
             makeGetContractRequest(dataApi)
+        }
+
+        send_get_apartments_request.setOnClickListener {
+            makeGetApartments(dataApi)
         }
     }
 
@@ -81,6 +87,39 @@ class MainActivity() : AppCompatActivity() {
                     Log.i("callTest", "getContract succes: $it");
                 }, {
                     Log.i("callTest", "getContract error: $it");
+                });
+        }
+    }
+
+    private fun makeGetApartments(dataApi: DataApi) {
+        //tokenTag valid till +- 15.11.2019
+        val request = GetApartmentsRequestEnvelope(
+            GetApartmentsRequestHeader(), GetApartmentsRequestBody(
+                GetApartments(
+                    apartmentsFilter = ApartmentsFilter(
+                        cityId = CityId("141dc580-3afd-3dfc-b3b7-a017469e3eb2"),
+                        typeId = TypeId("cd96665e-c7c4-3642-b46a-914a0971c395")
+                    ),
+                    offset = Offset("?"),
+                    limit = Limit("1")
+                )
+            )
+        )
+
+        getApartmentsResponse = dataApi.getApartmentsAsSingle(request);
+
+        getApartmentsResponse?.let {
+            it.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    Log.i("callTest", "getApartments loading started");
+                }.doAfterTerminate {
+                    Log.i("callTest", "getApartments loading finished");
+                }.subscribe({
+                    Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show();
+                    Log.i("callTest", "getApartments succes: $it");
+                }, {
+                    Log.i("callTest", "getApartments error: $it");
                 });
         }
     }

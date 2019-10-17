@@ -16,30 +16,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/send_req_button_call"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/send_request_call"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
         android:id="@+id/send_cities_request"
-        app:layout_constraintTop_toBottomOf="@id/send_req_button_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_cities_request"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/send_cities_request"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/send_getcontract_request"
-        app:layout_constraintTop_toBottomOf="@id/send_cities_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_get_contract_request"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/send_get_contract_request"
+        app:layout_constraintTop_toBottomOf="@id/send_cities_request" />
+
+    <Button
+        android:id="@+id/send_get_apartments_request"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/send_get_apartments_request"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/send_getcontract_request" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

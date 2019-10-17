@@ -1,8 +1,10 @@
 package com.games.soapsample.api
 
 import com.games.soapsample.request.CitiesRequestEnvelope
+import com.games.soapsample.request.GetApartmentsRequestEnvelope
 import com.games.soapsample.request.GetContractRequestEnvelope
 import com.games.soapsample.response.CitiesResponseEnvelope
+import com.games.soapsample.response.GetApartmentsResponseEnvelope
 import com.games.soapsample.response.GetContractResponseEnvelope
 import io.reactivex.Single
 import retrofit2.http.Body
@@ -18,4 +20,8 @@ interface DataApi {
     @Headers("Content-Type: text/xml", "Accept-Charset: utf-8")
     @POST("/server")
     fun getContractAsSingle(@Body body: GetContractRequestEnvelope): Single<GetContractResponseEnvelope>;
+
+    @Headers("Content-Type: text/xml", "Accept-Charset: utf-8")
+    @POST("/server")
+    fun getApartmentsAsSingle(@Body body: GetApartmentsRequestEnvelope): Single<GetApartmentsResponseEnvelope>;
 }

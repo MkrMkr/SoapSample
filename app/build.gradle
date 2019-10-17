@@ -34,14 +34,18 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.2"
-    kapt 'com.tickaroo.tikxml:auto-value-tikxml:0.8.13'
-    implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
-    implementation 'com.tickaroo.tikxml:annotation:0.8.13'
-    implementation 'com.tickaroo.tikxml:core:0.8.13'
+
+    def tikXmlVersion = '0.8.16-SNAPSHOT'
+    kapt 'com.tickaroo.tikxml:auto-value-tikxml:' + tikXmlVersion
+    implementation 'com.tickaroo.tikxml:retrofit-converter:' + tikXmlVersion
+    implementation 'com.tickaroo.tikxml:annotation:' + tikXmlVersion
+    implementation 'com.tickaroo.tikxml:core:' + tikXmlVersion
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
 
-    kapt 'com.tickaroo.tikxml:processor:0.8.13'
+    kapt 'com.tickaroo.tikxml:processor:' + tikXmlVersion
+    kapt 'com.tickaroo.tikxml:processor-common:' + tikXmlVersion
+    kapt 'com.tickaroo.tikxml:processor:' + tikXmlVersion
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

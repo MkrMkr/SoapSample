@@ -3,4 +3,5 @@
     <string name="send_request_call">Send request</string>
     <string name="send_cities_request">Send cities request</string>
     <string name="send_get_contract_request">Send get contract request</string>
+    <string name="send_get_apartments_request">Get apartments request</string>
 </resources>
