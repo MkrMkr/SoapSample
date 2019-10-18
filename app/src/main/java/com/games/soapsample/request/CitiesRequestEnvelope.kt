@@ -6,7 +6,7 @@ import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(
     name = SOAP_ENVELOPE_TAG,
-    writeNamespaces = [SOAP_W3_URL_NAMESPACE, "soap1=https://localhost/SOAPVendorAPI"]
+    writeNamespaces = [SOAP_W3_URL_NAMESPACE, SOAP1_VENDOR_API_NAMESPACE]
 )
 class CitiesRequestEnvelope(@Element var header: EmptyHeader = EmptyHeader(), @Element var body: Body)
 

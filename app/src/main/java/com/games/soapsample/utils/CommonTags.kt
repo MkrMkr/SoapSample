@@ -59,5 +59,5 @@ class Body(
 
 const val SOAP_ENVELOPE_TAG = "soap:Envelope"
 const val SOAP_W3_URL_NAMESPACE = "soap=http://www.w3.org/2003/05/soap-envelope"
-const val SOAP_VENDOR_API_NAMESPACE =
+const val SOAP1_VENDOR_API_NAMESPACE =
     "soap1=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI"

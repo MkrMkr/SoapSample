@@ -8,8 +8,7 @@ import com.tickaroo.tikxml.annotation.Xml
 @Xml(
     name = SOAP_ENVELOPE_TAG,
     writeNamespaces = [SOAP_W3_URL_NAMESPACE,
-        SOAP_VENDOR_API_NAMESPACE,
-        "typ=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI/types"]
+        SOAP1_VENDOR_API_NAMESPACE]
 )
 class GetApartmentsRequestEnvelope(@Element var header: EmptyHeader = EmptyHeader(), @Element var body: Body)
 
