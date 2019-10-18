@@ -39,7 +39,7 @@ class RpcResult(@TextContent var textContent: String)
 class EmptyHeader
 
 @Xml(name = "soap:Header")
-class HeaderWithContent(@Element var tokenContainer: TokenContainer)
+class HeaderWithToken(@Element var tokenContainer: TokenContainer)
 
 @Xml(name = "token")
 class TokenContainer(@TextContent var token: String)
