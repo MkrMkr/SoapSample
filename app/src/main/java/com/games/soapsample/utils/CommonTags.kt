@@ -1,9 +1,9 @@
 package com.games.soapsample.utils
 
-import com.tickaroo.tikxml.annotation.Attribute
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.TextContent
-import com.tickaroo.tikxml.annotation.Xml
+import com.games.soapsample.request.GetApartments
+import com.games.soapsample.request.GetContract
+import com.games.soapsample.request.ListOfCities
+import com.tickaroo.tikxml.annotation.*
 
 @Xml(inheritance = true)
 open class TagWithXsiType {
@@ -43,3 +43,16 @@ class HeaderWithContent(@Element var tokenContainer: TokenContainer)
 
 @Xml(name = "token")
 class TokenContainer(@TextContent var token: String)
+
+@Xml
+open class BodyContent
+
+@Xml(name = "soap:Body")
+class Body(
+    @Element(
+        typesByElement = [ElementNameMatcher(type = ListOfCities::class),
+            ElementNameMatcher(type = GetApartments::class),
+            ElementNameMatcher(type = GetContract::class)]
+    )
+    var bodyContent: BodyContent
+)

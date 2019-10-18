@@ -1,5 +1,7 @@
 package com.games.soapsample.request
 
+import com.games.soapsample.utils.Body
+import com.games.soapsample.utils.BodyContent
 import com.games.soapsample.utils.EmptyHeader
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.TextContent
@@ -11,17 +13,11 @@ import com.tickaroo.tikxml.annotation.Xml
         "soap1=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI",
         "typ=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI/types"]
 )
-class GetApartmentsRequestEnvelope(@Element var header: EmptyHeader = EmptyHeader(), @Element var body: GetApartmentsRequestBody)
-
-@Xml(name = "soap:Body")
-class GetApartmentsRequestBody(@Element var getApartments: GetApartments)
+class GetApartmentsRequestEnvelope(@Element var header: EmptyHeader = EmptyHeader(), @Element var body: Body)
 
 @Xml(name = "soap1:getApartments")
-class GetApartments(
-    @Element var apartmentsFilter: ApartmentsFilter,
-    @Element var offset: Offset,
-    @Element var limit: Limit
-)
+class GetApartments(@Element var apartmentsFilter: ApartmentsFilter, @Element var offset: Offset, @Element var limit: Limit) :
+    BodyContent()
 
 @Xml(name = "typ:Filter")
 class ApartmentsFilter(@Element var cityId: CityId, @Element var typeId: TypeId)
