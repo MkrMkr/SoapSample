@@ -1,5 +1,6 @@
 package com.games.soapsample.request
 
+import com.games.soapsample.utils.EmptyHeader
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Xml
 
@@ -7,10 +8,7 @@ import com.tickaroo.tikxml.annotation.Xml
     name = "soap:Envelope",
     writeNamespaces = ["soap=http://www.w3.org/2003/05/soap-envelope", "soap1=https://localhost/SOAPVendorAPI"]
 )
-class CitiesRequestEnvelope(@Element var header: CitiesRequestHeader, @Element var body: Body)
-
-@Xml(name = "soap:Header")
-class CitiesRequestHeader
+class CitiesRequestEnvelope(@Element var header: EmptyHeader = EmptyHeader(), @Element var body: Body)
 
 @Xml(name = "soap:Body")
 class Body(@Element var listOfCities: ListOfCities)

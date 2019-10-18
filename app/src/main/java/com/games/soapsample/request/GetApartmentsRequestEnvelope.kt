@@ -1,5 +1,6 @@
 package com.games.soapsample.request
 
+import com.games.soapsample.utils.EmptyHeader
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
@@ -10,10 +11,7 @@ import com.tickaroo.tikxml.annotation.Xml
         "soap1=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI",
         "typ=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI/types"]
 )
-class GetApartmentsRequestEnvelope(@Element var header: GetApartmentsRequestHeader, @Element var body: GetApartmentsRequestBody)
-
-@Xml(name = "soap:Header")
-class GetApartmentsRequestHeader
+class GetApartmentsRequestEnvelope(@Element var header: EmptyHeader = EmptyHeader(), @Element var body: GetApartmentsRequestBody)
 
 @Xml(name = "soap:Body")
 class GetApartmentsRequestBody(@Element var getApartments: GetApartments)

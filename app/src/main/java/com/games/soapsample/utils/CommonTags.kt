@@ -1,6 +1,7 @@
 package com.games.soapsample.utils
 
 import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
 
@@ -34,3 +35,11 @@ open class TagWithEncodingStyle() {
 @Xml(name = "rpc:result")
 class RpcResult(@TextContent var textContent: String)
 
+@Xml(name = "soap:Header")
+class EmptyHeader
+
+@Xml(name = "soap:Header")
+class HeaderWithContent(@Element var tokenContainer: TokenContainer)
+
+@Xml(name = "token")
+class TokenContainer(@TextContent var token: String)
