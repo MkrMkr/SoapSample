@@ -1,9 +1,15 @@
 package com.games.soapsample.utils
 
+import android.media.session.MediaSession
 import com.games.soapsample.request.GetApartments
 import com.games.soapsample.request.GetContract
 import com.games.soapsample.request.ListOfCities
 import com.tickaroo.tikxml.annotation.*
+
+const val SOAP_ENVELOPE_TAG = "soap:Envelope"
+const val SOAP_W3_URL_NAMESPACE = "soap=http://www.w3.org/2003/05/soap-envelope"
+const val SOAP1_VENDOR_API_NAMESPACE =
+    "soap1=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI"
 
 @Xml(inheritance = true)
 open class TagWithXsiType {
@@ -35,14 +41,28 @@ open class TagWithEncodingStyle() {
 @Xml(name = "rpc:result")
 class RpcResult(@TextContent var textContent: String)
 
+@Xml(
+    name = SOAP_ENVELOPE_TAG,
+    writeNamespaces = [SOAP_W3_URL_NAMESPACE,
+        SOAP1_VENDOR_API_NAMESPACE]
+)
+class Envelope(@Element var header: SoapHeader, @Element var body: Body)
+
+
 @Xml(name = "soap:Header")
 class EmptyHeader
 
+@Xml
+open class SoapHeaderContent
+
 @Xml(name = "soap:Header")
-class HeaderWithToken(@Element var tokenContainer: TokenContainer)
+class SoapHeader(
+    @Element(typesByElement = [ElementNameMatcher(type = TokenContainer::class)])
+    var headerContent: SoapHeaderContent
+)
 
 @Xml(name = "token")
-class TokenContainer(@TextContent var token: String)
+class TokenContainer(@TextContent var token: String): SoapHeaderContent()
 
 @Xml
 open class BodyContent
@@ -56,8 +76,3 @@ class Body(
     )
     var bodyContent: BodyContent
 )
-
-const val SOAP_ENVELOPE_TAG = "soap:Envelope"
-const val SOAP_W3_URL_NAMESPACE = "soap=http://www.w3.org/2003/05/soap-envelope"
-const val SOAP1_VENDOR_API_NAMESPACE =
-    "soap1=https://vonder-mock.dev.concisesoftware.com/SOAPVendorAPI"
